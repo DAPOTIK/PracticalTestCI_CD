@@ -44,6 +44,7 @@ pipeline {
             bat 'docker-compose down'
 
             junit testResults: 'backend-test-results.xml', allowEmptyResults: true
+            allure includeProperties: false, results: [[path: 'allure-results']]
             junit testResults: 'frontend-test-results.xml', allowEmptyResults: true
 
             archiveArtifacts artifacts: 'allure-results/**/*', allowEmptyArchive: true
