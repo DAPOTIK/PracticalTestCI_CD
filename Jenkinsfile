@@ -1,8 +1,12 @@
 pipeline {
     agent any
 
-    stages {
+    triggers {
+        githubPush()
+    }
 
+
+    stages {
 
         stage('Start app') {
             steps {
@@ -24,8 +28,7 @@ pipeline {
         stage('Backend tests') {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-
-                   bat '.venv\\Scripts\\python.exe -m pytest backend\\tests --alluredir=allure-results --junitxml=backend-test-results.xml'
+                    bat '.venv\\Scripts\\python.exe -m pytest backend\\tests --alluredir=allure-results --junitxml=backend-test-results.xml'
                 }
             }
         }
@@ -44,8 +47,8 @@ pipeline {
             bat 'docker-compose down'
 
             junit testResults: 'backend-test-results.xml', allowEmptyResults: true
-            allure includeProperties: false, results: [[path: 'allure-results']]
             junit testResults: 'frontend-test-results.xml', allowEmptyResults: true
+            allure includeProperties: false, results: [[path: 'allure-results']]
 
             archiveArtifacts artifacts: 'allure-results/**/*', allowEmptyArchive: true
         }
