@@ -5,8 +5,8 @@ pipeline {
 
         stage('Environment') {
             steps {
-                bat 'python --version'
-                bat 'pip --version'
+                bat 'py --version'
+                bat 'py -m pip --version'
                 bat 'git --version'
             }
         }
