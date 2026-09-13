@@ -3,7 +3,6 @@ pipeline {
     agent any
 
     stages {
-
         stage('Setup') {
             steps {
                 bat 'python -m venv .venv'
@@ -14,7 +13,7 @@ pipeline {
 
         stage('Start app') {
             steps {
-                bat '"C:\\Users\\parak\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker-compose.exe" up -d --build'
+                bat 'docker-compose up -d --build'
             }
         }
 
@@ -37,7 +36,7 @@ pipeline {
 
     post {
         always {
-            bat '"C:\\Users\\parak\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker-compose.exe" down'
+            bat 'docker-compose down'
 
             junit testResults: 'backend-test-results.xml', allowEmptyResults: true
             junit testResults: 'frontend-test-results.xml', allowEmptyResults: true
