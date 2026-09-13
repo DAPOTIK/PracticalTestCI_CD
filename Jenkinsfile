@@ -12,7 +12,7 @@ pipeline {
 
         stage('Start app') {
             steps {
-                bat 'docker compose up -d --build'
+                bat 'docker-compose up -d --build'
             }
         }
 
@@ -25,7 +25,7 @@ pipeline {
 
     post {
         always {
-            bat 'docker compose down'
+            bat 'docker-compose down'
             junit testResults: 'test-results.xml', allowEmptyResults: true
             archiveArtifacts artifacts: 'allure-results/**/*', allowEmptyArchive: true
         }
