@@ -18,7 +18,7 @@ pipeline {
 
         stage('Tests') {
             steps {
-                bat '.venv\\Scripts\\python.exe -m pytest froФntend\\e2e\\tests --alluredir=allure-results --junitxml=test-results.xml'
+                bat '.venv\\Scripts\\python.exe -m pytest frontend\\e2e\\tests --alluredir=allure-results --junitxml=test-results.xml'
             }
         }
     }
