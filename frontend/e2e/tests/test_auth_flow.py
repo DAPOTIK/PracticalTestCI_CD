@@ -16,7 +16,7 @@ class TestAuthFlow:
         register_page = RegisterPage(page)
         register_page.navigate("/register")
         
-        unique_email = f"test_{uuid.uuid4().hex[:8]}@example.com"
+        unique_email = f"test_{uuid.uuid4().hex[:8]}@"
         register_page.register(
             first_name="Test",
             last_name="User",
@@ -34,7 +34,7 @@ class TestAuthFlow:
     def test_login_success(self, page):
         login_page = LoginPage(page)
         login_page.navigate("/login")
-        login_page.login("test@example.com", "password123")
+        login_page.login("test@example.com", "IBSpassword123")
         login_page.check_redirect()
         
         # Should redirect to main page
