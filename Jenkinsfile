@@ -5,6 +5,7 @@ pipeline {
         stage('Setup') {
             steps {
                 bat 'python -m venv .venv'
+                bat '.venv\\Scripts\\python.exe -m pip install -r backend\\requirements.txt'
                 bat '.venv\\Scripts\\python.exe -m pip install -r backend\\requirements-test.txt'
                 bat '.venv\\Scripts\\python.exe -m playwright install chromium'
             }
