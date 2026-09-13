@@ -2,6 +2,15 @@ pipeline {
     agent any
 
     stages {
+
+
+        stage('Start app') {
+            steps {
+                bat 'docker-compose down || exit 0'
+                bat 'docker-compose up -d --build'
+            }
+        }
+
         stage('Setup') {
             steps {
                 bat 'python -m venv .venv'
@@ -11,17 +20,11 @@ pipeline {
             }
         }
 
-        stage('Start app') {
-            steps {
-                bat 'docker-compose up -d --build'
-            }
-        }
-
         stage('Backend tests') {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                   bat 'docker-compose exec -T backend pip install -r requirements-test.txt'
-                   bat 'docker-compose exec -T backend pytest tests'
+
+                   bat '.venv\\Scripts\\python.exe -m pytest backend\\tests'
                 }
             }
         }
