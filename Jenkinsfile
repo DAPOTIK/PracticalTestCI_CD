@@ -12,7 +12,7 @@ pipeline {
 
         stage('Start app') {
             steps {
-                bat '"C:\\Users\\parak\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" compose up -d --build'
+                bat '"C:\\Users\\parak\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker-compose.exe" up -d --build'
             }
         }
 
@@ -25,7 +25,7 @@ pipeline {
 
     post {
         always {
-            bat '"C:\\Users\\parak\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" compose down'
+            bat '"C:\\Users\\parak\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker-compose.exe" down'
             junit testResults: 'test-results.xml', allowEmptyResults: true
             archiveArtifacts artifacts: 'allure-results/**/*', allowEmptyArchive: true
         }
