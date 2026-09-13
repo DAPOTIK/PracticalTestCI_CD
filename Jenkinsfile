@@ -12,20 +12,20 @@ pipeline {
 
         stage('Start app') {
             steps {
-                bat '"C:\\Users\\parak\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker-compose.exe" up -d --build'
+                bat 'docker-compose up -d --build'
             }
         }
 
         stage('Tests') {
             steps {
-                bat '.venv\\Scripts\\python.exe -m pytest frontend\\e2e\\tests --alluredir=allure-results --junitxml=test-results.xml'
+                bat '.venv\\Scripts\\python.exe -m pytest froФntend\\e2e\\tests --alluredir=allure-results --junitxml=test-results.xml'
             }
         }
     }
 
     post {
         always {
-            bat '"C:\\Users\\parak\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker-compose.exe" down'
+            bat 'docker-compose down'
             junit testResults: 'test-results.xml', allowEmptyResults: true
             archiveArtifacts artifacts: 'allure-results/**/*', allowEmptyArchive: true
         }
