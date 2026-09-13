@@ -25,7 +25,7 @@ pipeline {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
 
-                   bat '.venv\\Scripts\\python.exe -m pytest backend\\tests'
+                   bat '.venv\\Scripts\\python.exe -m pytest backend\\tests --alluredir=allure-results --junitxml=frontend-test-results.xml'
                 }
             }
         }
