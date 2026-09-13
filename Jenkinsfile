@@ -2,29 +2,32 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Environment') {
-            steps {
-                bat 'python --version'
-                bat 'pip --version'
-                bat 'git --version'
-            }
-        }
-
-        stage('Install test dependencies') {
+        stage('Setup') {
             steps {
                 bat 'python -m venv .venv'
-                bat '.venv\\Scripts\\python.exe -m pip install --upgrade pip'
                 bat '.venv\\Scripts\\python.exe -m pip install -r backend\\requirements-test.txt'
                 bat '.venv\\Scripts\\python.exe -m playwright install chromium'
             }
         }
 
-        stage('Verify test tools') {
+        stage('Start app') {
             steps {
-                bat '.venv\\Scripts\\python.exe -m pytest --version'
-                bat '.venv\\Scripts\\python.exe -m playwright --version'
+                bat 'docker compose up -d --build'
             }
+        }
+
+        stage('Tests') {
+            steps {
+                bat '.venv\\Scripts\\python.exe -m pytest frontend\\e2e\\tests --alluredir=allure-results --junitxml=test-results.xml'
+            }
+        }
+    }
+
+    post {
+        always {
+            bat 'docker compose down'
+            junit testResults: 'test-results.xml', allowEmptyResults: true
+            archiveArtifacts artifacts: 'allure-results/**/*', allowEmptyArchive: true
         }
     }
 }
