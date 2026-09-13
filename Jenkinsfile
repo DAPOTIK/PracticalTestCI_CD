@@ -9,9 +9,11 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Environment') {
             steps {
-                echo 'Запускаем автотесты'
+                bat 'python --version'
+                bat 'pip --version'
+                bat 'git --version'
             }
         }
     }
